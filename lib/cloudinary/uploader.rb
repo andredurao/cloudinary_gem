@@ -55,7 +55,7 @@ class Cloudinary::Uploader
       :type                      => options[:type],
       :unique_filename           => Cloudinary::Utils.as_safe_bool(options[:unique_filename]),
       :upload_preset             => options[:upload_preset],
-      :use_filename              => Cloudinary::Utils.as_safe_bool(options[:use_filename]),
+      :use_filename              => (Cloudinary::Utils.as_safe_bool(options[:use_filename]) || Cloudinary::Utils.as_safe_bool(Cloudinary.config.use_filename)),
     }
     params
   end
@@ -237,7 +237,7 @@ class Cloudinary::Uploader
     end
   end
 
-  # options may include 'exclusive' (boolean) which causes clearing this tag from all other resources 
+  # options may include 'exclusive' (boolean) which causes clearing this tag from all other resources
   def self.add_tag(tag, public_ids = [], options = {})
     exclusive = options.delete(:exclusive)
     command   = exclusive ? "set_exclusive" : "add"
